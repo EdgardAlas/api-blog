@@ -1,4 +1,4 @@
-import { Module, Global } from '@nestjs/common';
+import { Module, Global, Logger } from '@nestjs/common';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import { EnvModule } from '../env/env.module';
@@ -12,7 +12,7 @@ function createDatabase(connectionString: string) {
   const pool = new Pool({
     connectionString,
   });
-  return drizzle(pool, { schema });
+  return drizzle({ client: pool, schema, logger: true });
 }
 
 @Global()
@@ -22,7 +22,12 @@ function createDatabase(connectionString: string) {
     {
       provide: DatabaseService,
       useFactory: (envsService: EnvsService): Database => {
+        const logger = new Logger('DatabaseModule');
+        logger.log('Creating database connection...');
+
         const connectionString = envsService.get('DATABASE_URL');
+
+        logger.log('Database connection created.');
         return createDatabase(connectionString);
       },
       inject: [EnvsService],
