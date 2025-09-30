@@ -17,7 +17,11 @@ async function bootstrap() {
   });
 
   app.useGlobalPipes(new I18nValidationPipe());
-  app.useGlobalFilters(new I18nValidationExceptionFilter());
+  app.useGlobalFilters(
+    new I18nValidationExceptionFilter({
+      detailedErrors: false,
+    }),
+  );
 
   await app.listen(process.env.PORT ?? 3000);
 
