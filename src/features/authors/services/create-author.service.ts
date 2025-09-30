@@ -1,5 +1,7 @@
 import { Injectable, Inject, ConflictException } from '@nestjs/common';
+import { I18nService } from 'nestjs-i18n';
 import { BaseService } from '../../../shared/types/base-service';
+import { I18nTranslations } from '../../../i18n/i18n.generated';
 import type { Database } from '../../../db/database.module';
 import { DatabaseService } from '../../../db/database.module';
 import { CreateAuthorRequest } from '../dto/requests/create-author.request';
@@ -11,7 +13,10 @@ import { eq, and } from 'drizzle-orm';
 export class CreateAuthorService
   implements BaseService<CreateAuthorRequest, IdResponse>
 {
-  constructor(@Inject(DatabaseService) private readonly db: Database) {}
+  constructor(
+    @Inject(DatabaseService) private readonly db: Database,
+    private readonly i18n: I18nService<I18nTranslations>,
+  ) {}
 
   async execute(request: CreateAuthorRequest): Promise<IdResponse> {
     await this.validateUniqueConstraints(request);
@@ -63,17 +68,15 @@ export class CreateAuthorService
     ]);
 
     if (existingSlug.length > 0) {
-      throw new ConflictException('An author with this slug already exists');
+      throw new ConflictException(this.i18n.t('authors.errors.slug_exists'));
     }
 
     if (existingEmail.length > 0) {
-      throw new ConflictException('An author with this email already exists');
+      throw new ConflictException(this.i18n.t('authors.errors.email_exists'));
     }
 
     if (existingName.length > 0) {
-      throw new ConflictException(
-        'An author with this name combination already exists',
-      );
+      throw new ConflictException(this.i18n.t('authors.errors.name_exists'));
     }
   }
 }

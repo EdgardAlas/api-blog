@@ -1,0 +1,23 @@
+{
+    "validation": {
+        "slug_required": "El slug es requerido",
+        "slug_string": "El slug debe ser una cadena de texto",
+        "slug_length": "El slug debe tener entre 1 y 255 caracteres",
+        "firstName_required": "El nombre es requerido",
+        "firstName_string": "El nombre debe ser una cadena de texto",
+        "firstName_length": "El nombre debe tener entre 1 y 100 caracteres",
+        "lastName_required": "El apellido es requerido",
+        "lastName_string": "El apellido debe ser una cadena de texto",
+        "lastName_length": "El apellido debe tener entre 1 y 100 caracteres",
+        "email_required": "El email es requerido",
+        "email_valid": "El email debe ser una dirección de email válida",
+        "email_length": "El email debe tener entre 1 y 255 caracteres",
+        "avatarUrl_valid": "La URL del avatar debe ser una URL válida"
+    },
+    "errors": {
+        "not_found": "Autor no encontrado",
+        "slug_exists": "Ya existe un autor con este slug",
+        "email_exists": "Ya existe un autor con este email",
+        "name_exists": "Ya existe un autor con esta combinación de nombres"
+    }
+}

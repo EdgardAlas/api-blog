@@ -4,6 +4,7 @@ import {
   NotFoundException,
   ConflictException,
 } from '@nestjs/common';
+import { I18nService } from 'nestjs-i18n';
 import { BaseService } from '../../../shared/types/base-service';
 import type { Database } from '../../../db/database.module';
 import { DatabaseService } from '../../../db/database.module';
@@ -11,6 +12,7 @@ import { UpdateAuthorRequest } from '../dto/requests/update-author.request';
 import { IdResponse } from '../../../shared/dto/id.response';
 import { authors } from '../../../db/schema/authors';
 import { eq, and, ne } from 'drizzle-orm';
+import { I18nTranslations } from 'src/i18n/i18n.generated';
 
 interface UpdateAuthorParams {
   id: string;
@@ -21,7 +23,10 @@ interface UpdateAuthorParams {
 export class UpdateAuthorService
   implements BaseService<UpdateAuthorParams, IdResponse>
 {
-  constructor(@Inject(DatabaseService) private readonly db: Database) {}
+  constructor(
+    @Inject(DatabaseService) private readonly db: Database,
+    private readonly i18n: I18nService<I18nTranslations>,
+  ) {}
 
   async execute({ id, request }: UpdateAuthorParams): Promise<IdResponse> {
     await this.validateAuthorExists(id);
@@ -50,7 +55,7 @@ export class UpdateAuthorService
       .limit(1);
 
     if (!author) {
-      throw new NotFoundException('Author not found');
+      throw new NotFoundException(this.i18n.t('authors.errors.not_found'));
     }
   }
 
@@ -66,7 +71,7 @@ export class UpdateAuthorService
         .limit(1);
 
       if (existingSlug.length > 0) {
-        throw new ConflictException('An author with this slug already exists');
+        throw new ConflictException(this.i18n.t('authors.errors.slug_exists'));
       }
     }
 
@@ -78,7 +83,7 @@ export class UpdateAuthorService
         .limit(1);
 
       if (existingEmail.length > 0) {
-        throw new ConflictException('An author with this email already exists');
+        throw new ConflictException(this.i18n.t('authors.errors.email_exists'));
       }
     }
 
@@ -105,9 +110,7 @@ export class UpdateAuthorService
         .limit(1);
 
       if (existingName.length > 0) {
-        throw new ConflictException(
-          'An author with this name combination already exists',
-        );
+        throw new ConflictException(this.i18n.t('authors.errors.name_exists'));
       }
     }
   }

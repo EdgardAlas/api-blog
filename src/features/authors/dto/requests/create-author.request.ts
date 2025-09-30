@@ -6,31 +6,58 @@ import {
   IsUrl,
   Length,
 } from 'class-validator';
+import { i18nValidationMessage } from 'nestjs-i18n';
 
 export class CreateAuthorRequest {
-  @IsNotEmpty({ message: 'Slug is required' })
-  @IsString({ message: 'Slug must be a string' })
-  @Length(1, 255, { message: 'Slug must be between 1 and 255 characters' })
+  @IsNotEmpty({
+    message: i18nValidationMessage('authors.validation.slug_required'),
+  })
+  @IsString({
+    message: i18nValidationMessage('authors.validation.slug_string'),
+  })
+  @Length(1, 255, {
+    message: i18nValidationMessage('authors.validation.slug_length'),
+  })
   slug: string;
 
-  @IsNotEmpty({ message: 'First name is required' })
-  @IsString({ message: 'First name must be a string' })
+  @IsNotEmpty({
+    message: i18nValidationMessage('authors.validation.firstName_required'),
+  })
+  @IsString({
+    message: i18nValidationMessage('authors.validation.firstName_string'),
+  })
   @Length(1, 100, {
-    message: 'First name must be between 1 and 100 characters',
+    message: i18nValidationMessage('authors.validation.firstName_length'),
   })
   firstName: string;
 
-  @IsNotEmpty({ message: 'Last name is required' })
-  @IsString({ message: 'Last name must be a string' })
-  @Length(1, 100, { message: 'Last name must be between 1 and 100 characters' })
+  @IsNotEmpty({
+    message: i18nValidationMessage('authors.validation.lastName_required'),
+  })
+  @IsString({
+    message: i18nValidationMessage('authors.validation.lastName_string'),
+  })
+  @Length(1, 100, {
+    message: i18nValidationMessage('authors.validation.lastName_length'),
+  })
   lastName: string;
 
-  @IsNotEmpty({ message: 'Email is required' })
-  @IsEmail({}, { message: 'Email must be a valid email address' })
-  @Length(1, 255, { message: 'Email must be between 1 and 255 characters' })
+  @IsNotEmpty({
+    message: i18nValidationMessage('authors.validation.email_required'),
+  })
+  @IsEmail(
+    {},
+    { message: i18nValidationMessage('authors.validation.email_valid') },
+  )
+  @Length(1, 255, {
+    message: i18nValidationMessage('authors.validation.email_length'),
+  })
   email: string;
 
   @IsOptional()
-  @IsUrl({}, { message: 'Avatar URL must be a valid URL' })
+  @IsUrl(
+    {},
+    { message: i18nValidationMessage('authors.validation.avatarUrl_valid') },
+  )
   avatarUrl?: string;
 }
