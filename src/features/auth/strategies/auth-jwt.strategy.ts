@@ -7,8 +7,8 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { type Database, DatabaseService } from 'src/db/database.module';
 import { authSessions, users } from 'src/db/schema';
 import { EnvsService } from 'src/env/services/envs.service';
-import { Roles } from 'src/features/auth/decorators/roles.decorator';
-import { AuthenticatedUser } from 'src/features/auth/entities/authenticated-user.entity';
+import { Roles } from '../decorators/roles.decorator';
+import { AuthenticatedUser } from '../entities/authenticated-user.entity';
 import { I18nTranslations } from 'src/i18n/i18n.generated';
 
 interface JwtPayload {

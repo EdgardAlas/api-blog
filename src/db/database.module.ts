@@ -1,9 +1,9 @@
 import { Module, Global, Logger } from '@nestjs/common';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
-import { EnvModule } from '../env/env.module';
-import { EnvsService } from '../env/services/envs.service';
-import * as schema from './schema';
+import { EnvModule } from 'src/env/env.module';
+import { EnvsService } from 'src/env/services/envs.service';
+import * as schema from 'src/db/schema';
 
 export const DatabaseService = 'DATABASE';
 export type Database = ReturnType<typeof drizzle<typeof schema>>;

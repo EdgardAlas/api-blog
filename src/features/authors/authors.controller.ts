@@ -12,19 +12,16 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { IdResponse } from '../../shared/dto/id.response';
-import { CreateAuthorRequest } from './dto/requests/create-author.request';
-import { GetAuthorsQuery } from './dto/requests/get-authors.query';
-import { UpdateAuthorRequest } from './dto/requests/update-author.request';
-import { AuthorResponse } from './dto/responses/author.response';
-import { GetAuthorsResponse } from './dto/responses/get-authors.response';
-import { CreateAuthorService } from './services/create-author.service';
-import { DeleteAuthorService } from './services/delete-author.service';
-import { GetAuthorService } from './services/get-author.service';
-import { GetAuthorsService } from './services/get-authors.service';
-import { UpdateAuthorService } from './services/update-author.service';
-import { Auth } from 'src/features/auth/decorators/auth.decorator';
-import { Rol } from 'src/features/auth/decorators/roles.decorator';
+import { CreateAuthorRequest } from 'src/features/authors/dto/requests/create-author.request';
+import { GetAuthorsQuery } from 'src/features/authors/dto/requests/get-authors.query';
+import { UpdateAuthorRequest } from 'src/features/authors/dto/requests/update-author.request';
+import { CreateAuthorService } from 'src/features/authors/services/create-author.service';
+import { DeleteAuthorService } from 'src/features/authors/services/delete-author.service';
+import { GetAuthorService } from 'src/features/authors/services/get-author.service';
+import { GetAuthorsService } from 'src/features/authors/services/get-authors.service';
+import { UpdateAuthorService } from 'src/features/authors/services/update-author.service';
+import { Auth } from '../auth/decorators/auth.decorator';
+import { Rol } from '../auth/decorators/roles.decorator';
 
 @Auth(Rol.ADMIN)
 @Controller('authors')
@@ -39,20 +36,18 @@ export class AuthorsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(
-    @Body() createAuthorRequest: CreateAuthorRequest,
-  ): Promise<IdResponse> {
+  async create(@Body() createAuthorRequest: CreateAuthorRequest) {
     return await this.createAuthorService.execute(createAuthorRequest);
   }
 
   @Get()
   @UsePipes(new ValidationPipe({ transform: true }))
-  async findAll(@Query() query: GetAuthorsQuery): Promise<GetAuthorsResponse> {
+  async findAll(@Query() query: GetAuthorsQuery) {
     return await this.getAuthorsService.execute(query);
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<AuthorResponse> {
+  async findOne(@Param('id') id: string) {
     return await this.getAuthorService.execute(id);
   }
 
@@ -60,7 +55,7 @@ export class AuthorsController {
   async update(
     @Param('id') id: string,
     @Body() updateAuthorRequest: UpdateAuthorRequest,
-  ): Promise<IdResponse> {
+  ) {
     return await this.updateAuthorService.execute({
       id,
       request: updateAuthorRequest,
@@ -68,7 +63,7 @@ export class AuthorsController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<IdResponse> {
+  async remove(@Param('id') id: string) {
     return await this.deleteAuthorService.execute(id);
   }
 }

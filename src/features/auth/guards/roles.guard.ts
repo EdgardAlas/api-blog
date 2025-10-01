@@ -62,7 +62,7 @@ export class RolesGuard implements CanActivate {
     return hasRole;
   }
 
-  matchRoles(roles: string[], userRole: string): boolean {
+  matchRoles(roles: string[], userRole: string) {
     return roles.includes(userRole);
   }
 }

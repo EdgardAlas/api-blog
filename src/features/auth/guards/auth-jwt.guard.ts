@@ -5,7 +5,7 @@ import { I18nContext } from 'nestjs-i18n';
 export class AuthJwtGuard extends AuthGuard('auth-jwt') {
   private readonly logger = new Logger(AuthJwtGuard.name);
 
-  handleRequest<TUser = any>(err: any, user: any, info: any): TUser {
+  handleRequest(err: any, user: any, info: any) {
     const i18nService = I18nContext.current();
     if (err || !user) {
       this.logger.warn(

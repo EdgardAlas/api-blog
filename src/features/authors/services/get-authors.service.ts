@@ -1,16 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ilike, or } from 'drizzle-orm';
-import type { Database } from '../../../db/database.module';
-import { DatabaseService } from '../../../db/database.module';
-import { authors } from '../../../db/schema/authors';
-import { BaseService } from '../../../shared/types/base-service';
+import type { Database } from 'src/db/database.module';
+import { DatabaseService } from 'src/db/database.module';
+import { authors } from 'src/db/schema/authors';
+import { BaseService } from 'src/shared/types/base-service';
 import {
   createPagination,
   getPaginationParams,
-} from '../../../shared/utils/pagination.utils';
-import { GetAuthorsQuery } from '../dto/requests/get-authors.query';
-import { AuthorResponse } from '../dto/responses/author.response';
-import { GetAuthorsResponse } from '../dto/responses/get-authors.response';
+} from 'src/shared/utils/pagination.utils';
+import { GetAuthorsQuery } from 'src/features/authors/dto/requests/get-authors.query';
+import { AuthorResponse } from 'src/features/authors/dto/responses/author.response';
+import { GetAuthorsResponse } from 'src/features/authors/dto/responses/get-authors.response';
 
 @Injectable()
 export class GetAuthorsService
@@ -18,7 +18,7 @@ export class GetAuthorsService
 {
   constructor(@Inject(DatabaseService) private readonly db: Database) {}
 
-  async execute(query: GetAuthorsQuery): Promise<GetAuthorsResponse> {
+  async execute(query: GetAuthorsQuery) {
     const { page, limit, offset } = getPaginationParams(query);
 
     const searchCondition = query.search

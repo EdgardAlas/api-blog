@@ -20,7 +20,7 @@ export function createPagination<T>(
   total: number,
   page: number,
   limit: number,
-): PaginatedResponse<T> {
+) {
   return new PaginatedResponse<T>({
     data,
     total,

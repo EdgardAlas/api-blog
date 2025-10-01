@@ -5,12 +5,12 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { I18nService } from 'nestjs-i18n';
-import { BaseService } from '../../../shared/types/base-service';
-import type { Database } from '../../../db/database.module';
-import { DatabaseService } from '../../../db/database.module';
-import { UpdateAuthorRequest } from '../dto/requests/update-author.request';
-import { IdResponse } from '../../../shared/dto/id.response';
-import { authors } from '../../../db/schema/authors';
+import { BaseService } from 'src/shared/types/base-service';
+import type { Database } from 'src/db/database.module';
+import { DatabaseService } from 'src/db/database.module';
+import { UpdateAuthorRequest } from 'src/features/authors/dto/requests/update-author.request';
+import { IdResponse } from 'src/shared/dto/id.response';
+import { authors } from 'src/db/schema/authors';
 import { eq, and, ne } from 'drizzle-orm';
 import { I18nTranslations } from 'src/i18n/i18n.generated';
 
@@ -28,7 +28,7 @@ export class UpdateAuthorService
     private readonly i18n: I18nService<I18nTranslations>,
   ) {}
 
-  async execute({ id, request }: UpdateAuthorParams): Promise<IdResponse> {
+  async execute({ id, request }: UpdateAuthorParams) {
     await this.validateAuthorExists(id);
     await this.validateUniqueConstraints(id, request);
 
@@ -41,13 +41,16 @@ export class UpdateAuthorService
         lastName: request.lastName,
         slug: request.slug,
       })
-      .where(eq(authors.id, id))
       .returning({ id: authors.id });
+
+    if (!result) {
+      throw new NotFoundException(this.i18n.t('authors.errors.not_found'));
+    }
 
     return { id: result.id };
   }
 
-  private async validateAuthorExists(id: string): Promise<void> {
+  private async validateAuthorExists(id: string) {
     const [author] = await this.db
       .select({ id: authors.id })
       .from(authors)
@@ -62,7 +65,7 @@ export class UpdateAuthorService
   private async validateUniqueConstraints(
     id: string,
     request: UpdateAuthorRequest,
-  ): Promise<void> {
+  ) {
     if (request.slug) {
       const existingSlug = await this.db
         .select({ id: authors.id })

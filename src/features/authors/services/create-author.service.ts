@@ -1,12 +1,12 @@
 import { Injectable, Inject, ConflictException } from '@nestjs/common';
 import { I18nService } from 'nestjs-i18n';
-import { BaseService } from '../../../shared/types/base-service';
-import { I18nTranslations } from '../../../i18n/i18n.generated';
-import type { Database } from '../../../db/database.module';
-import { DatabaseService } from '../../../db/database.module';
-import { CreateAuthorRequest } from '../dto/requests/create-author.request';
-import { IdResponse } from '../../../shared/dto/id.response';
-import { authors } from '../../../db/schema/authors';
+import { BaseService } from 'src/shared/types/base-service';
+import { I18nTranslations } from 'src/i18n/i18n.generated';
+import type { Database } from 'src/db/database.module';
+import { DatabaseService } from 'src/db/database.module';
+import { CreateAuthorRequest } from 'src/features/authors/dto/requests/create-author.request';
+import { IdResponse } from 'src/shared/dto/id.response';
+import { authors } from 'src/db/schema/authors';
 import { eq, and } from 'drizzle-orm';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class CreateAuthorService
     private readonly i18n: I18nService<I18nTranslations>,
   ) {}
 
-  async execute(request: CreateAuthorRequest): Promise<IdResponse> {
+  async execute(request: CreateAuthorRequest) {
     await this.validateUniqueConstraints(request);
 
     const [result] = await this.db
@@ -35,9 +35,7 @@ export class CreateAuthorService
     return { id: result.id };
   }
 
-  private async validateUniqueConstraints(
-    request: CreateAuthorRequest,
-  ): Promise<void> {
+  private async validateUniqueConstraints(request: CreateAuthorRequest) {
     const slugCheck = this.db
       .select({ id: authors.id })
       .from(authors)

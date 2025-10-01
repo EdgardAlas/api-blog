@@ -8,12 +8,12 @@ import {
 } from 'nestjs-i18n';
 import * as path from 'path';
 import { envs } from 'src/env/envs';
-import { DatabaseModule } from './db/database.module';
-import { EnvModule } from './env/env.module';
-import { AuthorsModule } from './features/authors/authors.module';
-import { HealthController } from './features/health/health.controller';
-import { CheckService } from './features/health/services/check/check.service';
-import { AuthModule } from './features/auth/auth.module';
+import { DatabaseModule } from 'src/db/database.module';
+import { EnvModule } from 'src/env/env.module';
+import { AuthorsModule } from 'src/features/authors/authors.module';
+import { HealthController } from 'src/features/health/health.controller';
+import { CheckService } from 'src/features/health/services/check/check.service';
+import { AuthModule } from 'src/features/auth/auth.module';
 
 @Module({
   imports: [
