@@ -10,6 +10,7 @@ import {
 import { userRoleEnum } from './enums';
 import { media } from './media';
 import { posts } from './posts';
+import { authSessions } from './auth-sessions';
 
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -30,4 +31,5 @@ export const users = pgTable('users', {
 export const usersRelations = relations(users, ({ many }) => ({
   createdPosts: many(posts, { relationName: 'CreatedBy' }),
   uploadedMedia: many(media),
+  authSessions: many(authSessions),
 }));

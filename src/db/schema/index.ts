@@ -1,6 +1,7 @@
 export * from './enums';
 
 export * from './users';
+export * from './auth-sessions';
 export * from './authors';
 export * from './languages';
 export * from './tags';

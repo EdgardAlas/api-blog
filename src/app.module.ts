@@ -13,6 +13,7 @@ import { EnvModule } from './env/env.module';
 import { AuthorsModule } from './features/authors/authors.module';
 import { HealthController } from './features/health/health.controller';
 import { CheckService } from './features/health/services/check/check.service';
+import { AuthModule } from './features/auth/auth.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { CheckService } from './features/health/services/check/check.service';
     EnvModule,
     DatabaseModule,
     AuthorsModule,
+    AuthModule,
   ],
   controllers: [HealthController],
   providers: [CheckService],
