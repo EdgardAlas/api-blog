@@ -23,7 +23,10 @@ import { DeleteAuthorService } from './services/delete-author.service';
 import { GetAuthorService } from './services/get-author.service';
 import { GetAuthorsService } from './services/get-authors.service';
 import { UpdateAuthorService } from './services/update-author.service';
+import { Auth } from 'src/features/auth/decorators/auth.decorator';
+import { Rol } from 'src/features/auth/decorators/roles.decorator';
 
+@Auth(Rol.ADMIN)
 @Controller('authors')
 export class AuthorsController {
   constructor(

@@ -5,6 +5,15 @@
 import { Path } from "nestjs-i18n";
 /* prettier-ignore */
 export type I18nTranslations = {
+    "auth": {
+        "errors": {
+            "invalid_token": string;
+            "inactive_user": string;
+            "access_denied": string;
+            "insufficient_permissions": string;
+            "unauthorized": string;
+        };
+    };
     "authors": {
         "validation": {
             "slug_required": string;
