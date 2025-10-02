@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import {
   I18nModule,
   AcceptLanguageResolver,
@@ -20,6 +21,7 @@ import { AuthModule } from 'src/features/auth/auth.module';
     ConfigModule.forRoot({
       load: [envs],
     }),
+    JwtModule.register({ global: true }),
     I18nModule.forRoot({
       fallbackLanguage: 'en',
       loaderOptions: {

@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { boolean, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { users } from './users';
 
 export const authSessions = pgTable('auth_sessions', {
@@ -9,7 +9,6 @@ export const authSessions = pgTable('auth_sessions', {
     .references(() => users.id, { onDelete: 'cascade' }),
   accessTokenJti: text('access_token_jti').notNull().unique(),
   refreshTokenJti: text('refresh_token_jti').notNull().unique(),
-  isRevoked: boolean('is_revoked').default(false).notNull(),
   expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()

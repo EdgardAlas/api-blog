@@ -6,7 +6,18 @@ import { Path } from "nestjs-i18n";
 /* prettier-ignore */
 export type I18nTranslations = {
     "auth": {
+        "validation": {
+            "email_required": string;
+            "email_valid": string;
+            "email_length": string;
+            "password_required": string;
+            "password_string": string;
+            "password_length": string;
+            "refresh_token_required": string;
+            "refresh_token_string": string;
+        };
         "errors": {
+            "invalid_credentials": string;
             "invalid_token": string;
             "inactive_user": string;
             "access_denied": string;

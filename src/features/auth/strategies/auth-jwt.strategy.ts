@@ -27,7 +27,7 @@ export class AuthJwtStrategy extends PassportStrategy(Strategy, 'auth-jwt') {
     super({
       ignoreExpiration: false,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: envService.get('JWT_REFRESH_SECRET'),
+      secretOrKey: envService.get('JWT_AUTH_SECRET'),
     });
   }
 
@@ -45,8 +45,7 @@ export class AuthJwtStrategy extends PassportStrategy(Strategy, 'auth-jwt') {
       .where(
         and(
           eq(users.id, payload.sub),
-          eq(authSessions.id, payload.jti),
-          eq(authSessions.isRevoked, false),
+          eq(authSessions.accessTokenJti, payload.jti),
         ),
       )
       .limit(1);
