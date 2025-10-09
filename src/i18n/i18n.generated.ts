@@ -64,6 +64,31 @@ export type I18nTranslations = {
             "code_exists": string;
         };
     };
+    "tags": {
+        "validation": {
+            "name_required": string;
+            "name_string": string;
+            "name_length": string;
+            "slug_required": string;
+            "slug_string": string;
+            "slug_length": string;
+            "languageId_required": string;
+            "languageId_uuid": string;
+            "id_uuid": string;
+            "color_hex": string;
+            "isActive_boolean": string;
+            "translations_array": string;
+            "search_string": string;
+            "page_integer": string;
+            "page_min": string;
+            "limit_integer": string;
+            "limit_min": string;
+        };
+        "errors": {
+            "not_found": string;
+            "slug_exists": string;
+        };
+    };
 };
 /* prettier-ignore */
 export type I18nPath = Path<I18nTranslations>;

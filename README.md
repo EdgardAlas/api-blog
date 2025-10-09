@@ -7,13 +7,13 @@ A comprehensive blog API built with NestJS, PostgreSQL, and Drizzle ORM, featuri
 - [x] JWT Authentication
 - [x] Author CRUD
 - [x] Language CRUD
+- [x] Tag CRUD with multilingual support
 - [x] Database with Drizzle ORM
 - [x] Internationalization
 - [x] Role-based access
 - [x] Request validation
 - [x] Search and pagination
 - [ ] Post management
-- [ ] Tag management
 - [ ] Media uploads
 - [ ] User registration
 
@@ -39,6 +39,14 @@ A comprehensive blog API built with NestJS, PostgreSQL, and Drizzle ORM, featuri
 - `POST /languages` - Create new language
 - `PATCH /languages/:id` - Update language
 - `DELETE /languages/:id` - Delete language
+
+### Tags (Admin only)
+
+- `GET /tags` - List tags with pagination and search
+- `GET /tags/:id` - Get tag by ID
+- `POST /tags` - Create new tag
+- `PATCH /tags/:id` - Update tag
+- `DELETE /tags/:id` - Delete tag
 
 ### Health
 
