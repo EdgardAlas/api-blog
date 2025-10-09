@@ -16,6 +16,7 @@ export class TagResponse {
   isActive: boolean | null;
   createdAt: Date | null;
   updatedAt: Date | null;
+  postCount: number;
   translations: TagTranslationResponse[];
 
   constructor(data?: Partial<TagResponse>) {

@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { eq, ilike, or } from 'drizzle-orm';
+import { eq, ilike, or, count } from 'drizzle-orm';
 import type { Database } from 'src/db/database.module';
 import { DatabaseService } from 'src/db/database.module';
 import { tagTranslations } from 'src/db/schema/tag-translations';
 import { tags } from 'src/db/schema/tags';
+import { postTags } from 'src/db/schema/post-tags';
 import { GetTagsQuery } from 'src/features/tags/dto/requests/get-tags.query';
 import { GetTagsResponse } from 'src/features/tags/dto/responses/get-tags.response';
 import {
@@ -48,6 +49,7 @@ export class GetTagsService implements BaseService<GetTagsResponse> {
           isActive: tags.isActive,
           createdAt: tags.createdAt,
           updatedAt: tags.updatedAt,
+          postCount: count(postTags.id),
           translationId: tagTranslations.id,
           languageId: tagTranslations.languageId,
           name: tagTranslations.name,
@@ -56,7 +58,20 @@ export class GetTagsService implements BaseService<GetTagsResponse> {
         })
         .from(tags)
         .innerJoin(tagTranslations, eq(tags.id, tagTranslations.tagId))
+        .leftJoin(postTags, eq(tags.id, postTags.tagId))
         .where(whereClause)
+        .groupBy(
+          tags.id,
+          tags.color,
+          tags.isActive,
+          tags.createdAt,
+          tags.updatedAt,
+          tagTranslations.id,
+          tagTranslations.languageId,
+          tagTranslations.name,
+          tagTranslations.slug,
+          tagTranslations.createdAt,
+        )
         .limit(limit)
         .offset(offset),
       this.db.$count(tags, whereClause),
@@ -74,6 +89,7 @@ export class GetTagsService implements BaseService<GetTagsResponse> {
             isActive: row.isActive,
             createdAt: row.createdAt,
             updatedAt: row.updatedAt,
+            postCount: row.postCount,
             translations: [],
           }),
         );
