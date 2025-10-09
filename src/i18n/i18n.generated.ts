@@ -48,6 +48,22 @@ export type I18nTranslations = {
             "name_exists": string;
         };
     };
+    "languages": {
+        "validation": {
+            "code_required": string;
+            "code_string": string;
+            "code_length": string;
+            "name_required": string;
+            "name_string": string;
+            "name_length": string;
+            "is_default_boolean": string;
+            "is_active_boolean": string;
+        };
+        "errors": {
+            "not_found": string;
+            "code_exists": string;
+        };
+    };
 };
 /* prettier-ignore */
 export type I18nPath = Path<I18nTranslations>;

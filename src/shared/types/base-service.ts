@@ -1,3 +1,3 @@
-export interface BaseService<P = void, T = void> {
-  execute(params: P): Promise<T> | T;
+export interface BaseService<T = void> {
+  execute(...args: unknown[]): Promise<T> | T;
 }

@@ -15,6 +15,7 @@ import { AuthorsModule } from 'src/features/authors/authors.module';
 import { HealthController } from 'src/features/health/health.controller';
 import { CheckService } from 'src/features/health/services/check/check.service';
 import { AuthModule } from 'src/features/auth/auth.module';
+import { LanguagesModule } from 'src/features/languages/languages.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { AuthModule } from 'src/features/auth/auth.module';
     DatabaseModule,
     AuthorsModule,
     AuthModule,
+    LanguagesModule,
   ],
   controllers: [HealthController],
   providers: [CheckService],

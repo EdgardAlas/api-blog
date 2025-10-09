@@ -16,6 +16,7 @@ export const languages = pgTable('languages', {
   isDefault: boolean('is_default').default(false),
   isActive: boolean('is_active').default(true),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
 
 export const languagesRelations = relations(languages, ({ many }) => ({

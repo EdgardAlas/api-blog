@@ -1,0 +1,16 @@
+{
+    "validation": {
+        "code_required": "Language code is required",
+        "code_string": "Language code must be a string",
+        "code_length": "Language code must be between 2 and 5 characters",
+        "name_required": "Language name is required",
+        "name_string": "Language name must be a string",
+        "name_length": "Language name must be between 1 and 100 characters",
+        "is_default_boolean": "Is default must be a boolean",
+        "is_active_boolean": "Is active must be a boolean"
+    },
+    "errors": {
+        "not_found": "Language not found",
+        "code_exists": "A language with this code already exists"
+    }
+}

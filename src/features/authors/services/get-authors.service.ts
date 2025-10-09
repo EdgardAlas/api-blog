@@ -13,9 +13,7 @@ import { AuthorResponse } from 'src/features/authors/dto/responses/author.respon
 import { GetAuthorsResponse } from 'src/features/authors/dto/responses/get-authors.response';
 
 @Injectable()
-export class GetAuthorsService
-  implements BaseService<GetAuthorsQuery, GetAuthorsResponse>
-{
+export class GetAuthorsService implements BaseService<GetAuthorsResponse> {
   constructor(@Inject(DatabaseService) private readonly db: Database) {}
 
   async execute(query: GetAuthorsQuery) {

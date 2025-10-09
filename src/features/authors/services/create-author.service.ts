@@ -10,9 +10,7 @@ import { authors } from 'src/db/schema/authors';
 import { eq, and } from 'drizzle-orm';
 
 @Injectable()
-export class CreateAuthorService
-  implements BaseService<CreateAuthorRequest, IdResponse>
-{
+export class CreateAuthorService implements BaseService<IdResponse> {
   constructor(
     @Inject(DatabaseService) private readonly db: Database,
     private readonly i18n: I18nService<I18nTranslations>,

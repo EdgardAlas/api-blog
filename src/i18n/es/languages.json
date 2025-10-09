@@ -1,0 +1,16 @@
+{
+    "validation": {
+        "code_required": "El código del idioma es requerido",
+        "code_string": "El código del idioma debe ser una cadena de texto",
+        "code_length": "El código del idioma debe tener entre 2 y 5 caracteres",
+        "name_required": "El nombre del idioma es requerido",
+        "name_string": "El nombre del idioma debe ser una cadena de texto",
+        "name_length": "El nombre del idioma debe tener entre 1 y 100 caracteres",
+        "is_default_boolean": "Es por defecto debe ser un booleano",
+        "is_active_boolean": "Está activo debe ser un booleano"
+    },
+    "errors": {
+        "not_found": "Idioma no encontrado",
+        "code_exists": "Ya existe un idioma con este código"
+    }
+}

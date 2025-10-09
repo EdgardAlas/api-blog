@@ -9,7 +9,7 @@ import { eq } from 'drizzle-orm';
 import { I18nTranslations } from 'src/i18n/i18n.generated';
 
 @Injectable()
-export class GetAuthorService implements BaseService<string, AuthorResponse> {
+export class GetAuthorService implements BaseService<AuthorResponse> {
   constructor(
     @Inject(DatabaseService) private readonly db: Database,
     private readonly i18n: I18nService<I18nTranslations>,

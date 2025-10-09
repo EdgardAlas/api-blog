@@ -11,7 +11,7 @@ import { LoginResponse } from '../dto/responses/login.response';
 import { AuthJwtService } from './auth-jwt.service';
 
 @Injectable()
-export class LoginService implements BaseService<LoginRequest, LoginResponse> {
+export class LoginService implements BaseService<LoginResponse> {
   constructor(
     @Inject(DatabaseService) private readonly db: Database,
     private readonly i18n: I18nService<I18nTranslations>,

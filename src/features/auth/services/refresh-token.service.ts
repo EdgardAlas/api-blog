@@ -5,9 +5,7 @@ import { RefreshTokenResponse } from '../dto/responses/refresh-token.response';
 import { AuthJwtService } from './auth-jwt.service';
 
 @Injectable()
-export class RefreshTokenService
-  implements BaseService<RefreshTokenRequest, RefreshTokenResponse>
-{
+export class RefreshTokenService implements BaseService<RefreshTokenResponse> {
   constructor(private readonly authJwtService: AuthJwtService) {}
 
   async execute(refreshTokenRequest: RefreshTokenRequest) {

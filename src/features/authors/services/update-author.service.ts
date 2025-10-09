@@ -20,9 +20,7 @@ interface UpdateAuthorParams {
 }
 
 @Injectable()
-export class UpdateAuthorService
-  implements BaseService<UpdateAuthorParams, IdResponse>
-{
+export class UpdateAuthorService implements BaseService<IdResponse> {
   constructor(
     @Inject(DatabaseService) private readonly db: Database,
     private readonly i18n: I18nService<I18nTranslations>,
