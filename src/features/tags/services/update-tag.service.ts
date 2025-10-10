@@ -15,6 +15,11 @@ import { tags } from 'src/db/schema/tags';
 import { tagTranslations } from 'src/db/schema/tag-translations';
 import { eq, and, inArray, or } from 'drizzle-orm';
 
+interface UpdateTagParams {
+  id: string;
+  request: UpdateTagRequest;
+}
+
 @Injectable()
 export class UpdateTagService implements BaseService<IdResponse> {
   constructor(
@@ -22,9 +27,7 @@ export class UpdateTagService implements BaseService<IdResponse> {
     private readonly i18n: I18nService<I18nTranslations>,
   ) {}
 
-  async execute(params: { id: string; request: UpdateTagRequest }) {
-    const { id, request } = params;
-
+  async execute({ id, request }: UpdateTagParams) {
     await this.validateTagExists(id);
     await this.validateUniqueConstraints(request);
 

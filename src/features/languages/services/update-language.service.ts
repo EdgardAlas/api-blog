@@ -16,7 +16,7 @@ import { I18nTranslations } from 'src/i18n/i18n.generated';
 
 interface UpdateLanguageParams {
   id: string;
-  updateLanguageRequest: UpdateLanguageRequest;
+  request: UpdateLanguageRequest;
 }
 
 @Injectable()
@@ -26,17 +26,17 @@ export class UpdateLanguageService implements BaseService<IdResponse> {
     private readonly i18n: I18nService<I18nTranslations>,
   ) {}
 
-  async execute({ id, updateLanguageRequest }: UpdateLanguageParams) {
+  async execute({ id, request }: UpdateLanguageParams) {
     await this.validateLanguageExists(id);
-    await this.validateUniqueConstraints(id, updateLanguageRequest);
+    await this.validateUniqueConstraints(id, request);
 
     const [result] = await this.db
       .update(languages)
       .set({
-        code: updateLanguageRequest.code,
-        name: updateLanguageRequest.name,
-        isDefault: updateLanguageRequest.isDefault,
-        isActive: updateLanguageRequest.isActive,
+        code: request.code,
+        name: request.name,
+        isDefault: request.isDefault,
+        isActive: request.isActive,
       })
       .where(eq(languages.id, id))
       .returning({ id: languages.id });

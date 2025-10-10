@@ -58,7 +58,7 @@ export class LanguagesController {
   ) {
     return await this.updateLanguageService.execute({
       id,
-      updateLanguageRequest,
+      request: updateLanguageRequest,
     });
   }
 

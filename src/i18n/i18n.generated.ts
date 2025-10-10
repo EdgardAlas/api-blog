@@ -89,6 +89,36 @@ export type I18nTranslations = {
             "slug_exists": string;
         };
     };
+    "users": {
+        "validation": {
+            "email_required": string;
+            "email_valid": string;
+            "email_length": string;
+            "username_required": string;
+            "username_string": string;
+            "username_length": string;
+            "password_required": string;
+            "password_string": string;
+            "password_min_length": string;
+            "firstName_string": string;
+            "firstName_length": string;
+            "lastName_string": string;
+            "lastName_length": string;
+            "avatarUrl_valid": string;
+            "role_enum": string;
+            "isActive_boolean": string;
+            "search_string": string;
+            "page_integer": string;
+            "page_min": string;
+            "limit_integer": string;
+            "limit_min": string;
+        };
+        "errors": {
+            "not_found": string;
+            "email_exists": string;
+            "username_exists": string;
+        };
+    };
 };
 /* prettier-ignore */
 export type I18nPath = Path<I18nTranslations>;

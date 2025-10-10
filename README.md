@@ -13,9 +13,9 @@ A comprehensive blog API built with NestJS, PostgreSQL, and Drizzle ORM, featuri
 - [x] Role-based access
 - [x] Request validation
 - [x] Search and pagination
+- [x] User management CRUD
 - [ ] Post management
 - [ ] Media uploads
-- [ ] User registration
 
 ## API Endpoints
 
@@ -34,8 +34,8 @@ A comprehensive blog API built with NestJS, PostgreSQL, and Drizzle ORM, featuri
 
 ### Languages (Admin only)
 
-- `GET /languages` - List languages with pagination, search, and post counts
-- `GET /languages/:id` - Get language by ID with post count
+- `GET /languages` - List languages with pagination and search
+- `GET /languages/:id` - Get language by ID
 - `POST /languages` - Create new language
 - `PATCH /languages/:id` - Update language
 - `DELETE /languages/:id` - Delete language
@@ -47,6 +47,14 @@ A comprehensive blog API built with NestJS, PostgreSQL, and Drizzle ORM, featuri
 - `POST /tags` - Create new tag
 - `PATCH /tags/:id` - Update tag
 - `DELETE /tags/:id` - Delete tag
+
+### Users (Admin only)
+
+- `GET /users` - List users with pagination and search
+- `GET /users/:id` - Get user by ID
+- `POST /users` - Create new user
+- `PATCH /users/:id` - Update user
+- `DELETE /users/:id` - Delete user
 
 ### Health
 
