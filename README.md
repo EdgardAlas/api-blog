@@ -4,18 +4,17 @@ A comprehensive blog API built with NestJS, PostgreSQL, and Drizzle ORM, featuri
 
 ## Features
 
-- [x] JWT Authentication
-- [x] Author CRUD
-- [x] Language CRUD
-- [x] Tag CRUD with multilingual support
 - [x] Database with Drizzle ORM
 - [x] Internationalization
 - [x] Role-based access
 - [x] Request validation
-- [x] Search and pagination
-- [x] User management CRUD
-- [ ] Post management
-- [ ] Media uploads
+- [x] JWT Authentication
+- [x] Author CRUD
+- [x] Language CRUD
+- [x] Tag CRUD
+- [x] User CRUD
+- [ ] Post CRUD
+- [ ] Media uploads CRUD
 
 ## API Endpoints
 
