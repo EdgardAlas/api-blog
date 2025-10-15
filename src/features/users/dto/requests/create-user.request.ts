@@ -21,17 +21,6 @@ export class CreateUserRequest {
   email: string;
 
   @IsNotEmpty({
-    message: 'Username is required',
-  })
-  @IsString({
-    message: 'Username must be a string',
-  })
-  @Length(1, 100, {
-    message: 'Username must be between 1 and 100 characters',
-  })
-  username: string;
-
-  @IsNotEmpty({
     message: 'Password is required',
   })
   @IsString({

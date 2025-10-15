@@ -5,7 +5,7 @@ import { DatabaseService } from 'src/db/database.module';
 import { CreateUserRequest } from 'src/features/users/dto/requests/create-user.request';
 import { IdResponse } from 'src/shared/dto/id.response';
 import { users } from 'src/db/schema/users';
-import { eq, or } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -21,7 +21,6 @@ export class CreateUserService implements BaseService<IdResponse> {
       .insert(users)
       .values({
         email: request.email,
-        username: request.username,
         passwordHash,
         firstName: request.firstName,
         lastName: request.lastName,
@@ -36,24 +35,13 @@ export class CreateUserService implements BaseService<IdResponse> {
 
   private async validateUniqueConstraints(request: CreateUserRequest) {
     const [existingUser] = await this.db
-      .select({ id: users.id, email: users.email, username: users.username })
+      .select({ id: users.id })
       .from(users)
-      .where(
-        or(
-          eq(users.email, request.email),
-          eq(users.username, request.username),
-        ),
-      )
+      .where(eq(users.email, request.email))
       .limit(1);
 
-    if (!existingUser) return;
-
-    if (existingUser.email === request.email) {
+    if (existingUser) {
       throw new ConflictException('Email already exists');
-    }
-
-    if (existingUser.username === request.username) {
-      throw new ConflictException('Username already exists');
     }
   }
 }

@@ -23,7 +23,6 @@ export class GetUsersService implements BaseService<GetUsersResponse> {
       ? or(
           ilike(users.firstName, `%${query.search}%`),
           ilike(users.lastName, `%${query.search}%`),
-          ilike(users.username, `%${query.search}%`),
           ilike(users.email, `%${query.search}%`),
         )
       : undefined;
@@ -51,7 +50,6 @@ export class GetUsersService implements BaseService<GetUsersResponse> {
         new UserResponse({
           id: user.id,
           email: user.email,
-          username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,
           avatarUrl: user.avatarUrl,

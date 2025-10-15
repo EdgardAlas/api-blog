@@ -34,7 +34,6 @@ export class UpdateUserService implements BaseService<IdResponse> {
       .update(users)
       .set({
         email: request.email,
-        username: request.username,
         passwordHash: password,
         firstName: request.firstName,
         lastName: request.lastName,
@@ -72,18 +71,6 @@ export class UpdateUserService implements BaseService<IdResponse> {
 
       if (existingEmail.length > 0) {
         throw new ConflictException('A user with this email already exists');
-      }
-    }
-
-    if (request.username) {
-      const existingUsername = await this.db
-        .select({ id: users.id })
-        .from(users)
-        .where(and(ne(users.id, userId), eq(users.username, request.username)))
-        .limit(1);
-
-      if (existingUsername.length > 0) {
-        throw new ConflictException('A user with this username already exists');
       }
     }
   }

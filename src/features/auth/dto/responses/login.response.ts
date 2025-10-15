@@ -4,7 +4,6 @@ export class LoginResponse {
   user: {
     id: string;
     email: string;
-    username: string;
     firstName: string | null;
     lastName: string | null;
     avatarUrl: string | null;
