@@ -6,58 +6,51 @@ import {
   IsUrl,
   Length,
 } from 'class-validator';
-import { i18nValidationMessage } from 'nestjs-i18n';
 
 export class CreateAuthorRequest {
   @IsNotEmpty({
-    message: i18nValidationMessage('authors.validation.slug_required'),
+    message: 'Slug is required',
   })
   @IsString({
-    message: i18nValidationMessage('authors.validation.slug_string'),
+    message: 'Slug must be a string',
   })
   @Length(1, 255, {
-    message: i18nValidationMessage('authors.validation.slug_length'),
+    message: 'Slug must be between 1 and 255 characters',
   })
   slug: string;
 
   @IsNotEmpty({
-    message: i18nValidationMessage('authors.validation.firstName_required'),
+    message: 'First name is required',
   })
   @IsString({
-    message: i18nValidationMessage('authors.validation.firstName_string'),
+    message: 'First name must be a string',
   })
   @Length(1, 100, {
-    message: i18nValidationMessage('authors.validation.firstName_length'),
+    message: 'First name must be between 1 and 100 characters',
   })
   firstName: string;
 
   @IsNotEmpty({
-    message: i18nValidationMessage('authors.validation.lastName_required'),
+    message: 'Last name is required',
   })
   @IsString({
-    message: i18nValidationMessage('authors.validation.lastName_string'),
+    message: 'Last name must be a string',
   })
   @Length(1, 100, {
-    message: i18nValidationMessage('authors.validation.lastName_length'),
+    message: 'Last name must be between 1 and 100 characters',
   })
   lastName: string;
 
   @IsNotEmpty({
-    message: i18nValidationMessage('authors.validation.email_required'),
+    message: 'Email is required',
   })
-  @IsEmail(
-    {},
-    { message: i18nValidationMessage('authors.validation.email_valid') },
-  )
+  @IsEmail({}, { message: 'Email must be a valid email address' })
   @Length(1, 255, {
-    message: i18nValidationMessage('authors.validation.email_length'),
+    message: 'Email must be between 1 and 255 characters',
   })
   email: string;
 
   @IsOptional()
-  @IsUrl(
-    {},
-    { message: i18nValidationMessage('authors.validation.avatarUrl_valid') },
-  )
+  @IsUrl({}, { message: 'Avatar URL must be a valid URL' })
   avatarUrl?: string;
 }

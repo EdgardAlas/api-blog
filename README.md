@@ -1,11 +1,11 @@
 # Blog API
 
-A comprehensive blog API built with NestJS, PostgreSQL, and Drizzle ORM, featuring JWT authentication, internationalization, and a modular architecture.
+A comprehensive blog API built with NestJS, PostgreSQL, and Drizzle ORM, featuring JWT authentication, role-based access control, and a modular architecture.
 
 ## Features
 
 - [x] Database with Drizzle ORM
-- [x] Internationalization
+- [x] I18n infrastructure (ready for future multilingual support)
 - [x] Role-based access
 - [x] Request validation
 - [x] JWT Authentication

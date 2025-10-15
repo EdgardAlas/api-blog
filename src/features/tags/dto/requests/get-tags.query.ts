@@ -1,17 +1,16 @@
 import { Transform, Type } from 'class-transformer';
 import { IsOptional, IsString, IsUUID, IsInt, Min } from 'class-validator';
-import { i18nValidationMessage } from 'nestjs-i18n';
 
 export class GetTagsQuery {
   @IsOptional()
   @IsString({
-    message: i18nValidationMessage('tags.validation.search_string'),
+    message: 'Search must be a string',
   })
   search?: string;
 
   @IsOptional()
   @IsUUID('4', {
-    message: i18nValidationMessage('tags.validation.languageId_uuid'),
+    message: 'Language ID must be a valid UUID',
   })
   lang?: string;
 
@@ -19,10 +18,10 @@ export class GetTagsQuery {
   @Transform(({ value }) => parseInt(value as string))
   @Type(() => Number)
   @IsInt({
-    message: i18nValidationMessage('tags.validation.page_integer'),
+    message: 'Page must be an integer',
   })
   @Min(1, {
-    message: i18nValidationMessage('tags.validation.page_min'),
+    message: 'Page must be at least 1',
   })
   page?: number;
 
@@ -30,10 +29,10 @@ export class GetTagsQuery {
   @Transform(({ value }) => parseInt(value as string))
   @Type(() => Number)
   @IsInt({
-    message: i18nValidationMessage('tags.validation.limit_integer'),
+    message: 'Limit must be an integer',
   })
   @Min(1, {
-    message: i18nValidationMessage('tags.validation.limit_min'),
+    message: 'Limit must be at least 1',
   })
   limit?: number;
 }

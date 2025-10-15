@@ -1,29 +1,23 @@
 import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
-import { i18nValidationMessage } from 'nestjs-i18n';
 
 export class LoginRequest {
   @IsNotEmpty({
-    message: i18nValidationMessage('auth.validation.email_required'),
+    message: 'Email is required',
   })
-  @IsEmail(
-    {},
-    {
-      message: i18nValidationMessage('auth.validation.email_valid'),
-    },
-  )
+  @IsEmail({}, { message: 'Email must be a valid email address' })
   @Length(1, 255, {
-    message: i18nValidationMessage('auth.validation.email_length'),
+    message: 'Email must be between 1 and 255 characters',
   })
   email: string;
 
   @IsNotEmpty({
-    message: i18nValidationMessage('auth.validation.password_required'),
+    message: 'Password is required',
   })
   @IsString({
-    message: i18nValidationMessage('auth.validation.password_string'),
+    message: 'Password must be a string',
   })
   @Length(8, 100, {
-    message: i18nValidationMessage('auth.validation.password_length'),
+    message: 'Password must be between 8 and 100 characters',
   })
   password: string;
 }

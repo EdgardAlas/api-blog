@@ -5,21 +5,16 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { I18nService } from 'nestjs-i18n';
 import { Observable } from 'rxjs';
 import {
   Rol,
   ROLES_DECORATOR_NAME,
 } from 'src/features/auth/decorators/roles.decorator';
 import { AuthenticatedUser } from 'src/features/auth/entities/authenticated-user.entity';
-import { I18nTranslations } from 'src/i18n/i18n.generated';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(
-    private readonly reflector: Reflector,
-    private readonly i18nService: I18nService<I18nTranslations>,
-  ) {}
+  constructor(private readonly reflector: Reflector) {}
 
   canActivate(
     context: ExecutionContext,
@@ -42,9 +37,7 @@ export class RolesGuard implements CanActivate {
     }
 
     if (!user) {
-      throw new BadRequestException(
-        this.i18nService.t('auth.errors.access_denied'),
-      );
+      throw new BadRequestException('Access denied');
     }
 
     if (user.role === Rol.ADMIN) {
@@ -54,9 +47,7 @@ export class RolesGuard implements CanActivate {
     const hasRole = this.matchRoles(roles, user.role);
 
     if (!hasRole) {
-      throw new BadRequestException(
-        this.i18nService.t('auth.errors.insufficient_permissions'),
-      );
+      throw new BadRequestException('Insufficient permissions');
     }
 
     return hasRole;

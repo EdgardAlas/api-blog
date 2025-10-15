@@ -1,7 +1,5 @@
 import { Injectable, Inject, ConflictException } from '@nestjs/common';
-import { I18nService } from 'nestjs-i18n';
 import { BaseService } from 'src/shared/types/base-service';
-import { I18nTranslations } from 'src/i18n/i18n.generated';
 import type { Database } from 'src/db/database.module';
 import { DatabaseService } from 'src/db/database.module';
 import { CreateLanguageRequest } from 'src/features/languages/dto/requests/create-language.request';
@@ -11,10 +9,7 @@ import { eq } from 'drizzle-orm';
 
 @Injectable()
 export class CreateLanguageService implements BaseService<IdResponse> {
-  constructor(
-    @Inject(DatabaseService) private readonly db: Database,
-    private readonly i18n: I18nService<I18nTranslations>,
-  ) {}
+  constructor(@Inject(DatabaseService) private readonly db: Database) {}
 
   async execute(request: CreateLanguageRequest) {
     await this.validateUniqueConstraints(request);
@@ -42,7 +37,7 @@ export class CreateLanguageService implements BaseService<IdResponse> {
     const [existingCode] = await Promise.all([codeCheck]);
 
     if (existingCode.length > 0) {
-      throw new ConflictException(this.i18n.t('languages.errors.code_exists'));
+      throw new ConflictException('Language code already exists');
     }
   }
 }

@@ -4,9 +4,7 @@ import {
   ConflictException,
   NotFoundException,
 } from '@nestjs/common';
-import { I18nService } from 'nestjs-i18n';
 import { BaseService } from 'src/shared/types/base-service';
-import { I18nTranslations } from 'src/i18n/i18n.generated';
 import type { Database } from 'src/db/database.module';
 import { DatabaseService } from 'src/db/database.module';
 import { UpdateUserRequest } from 'src/features/users/dto/requests/update-user.request';
@@ -22,10 +20,7 @@ interface UpdateUserParams {
 
 @Injectable()
 export class UpdateUserService implements BaseService<IdResponse> {
-  constructor(
-    @Inject(DatabaseService) private readonly db: Database,
-    private readonly i18n: I18nService<I18nTranslations>,
-  ) {}
+  constructor(@Inject(DatabaseService) private readonly db: Database) {}
 
   async execute({ id, request }: UpdateUserParams) {
     await this.validateUserExists(id);
@@ -60,7 +55,7 @@ export class UpdateUserService implements BaseService<IdResponse> {
       .limit(1);
 
     if (!user) {
-      throw new NotFoundException(this.i18n.t('users.errors.not_found'));
+      throw new NotFoundException('User not found');
     }
   }
 
@@ -76,7 +71,7 @@ export class UpdateUserService implements BaseService<IdResponse> {
         .limit(1);
 
       if (existingEmail.length > 0) {
-        throw new ConflictException(this.i18n.t('users.errors.email_exists'));
+        throw new ConflictException('A user with this email already exists');
       }
     }
 
@@ -88,9 +83,7 @@ export class UpdateUserService implements BaseService<IdResponse> {
         .limit(1);
 
       if (existingUsername.length > 0) {
-        throw new ConflictException(
-          this.i18n.t('users.errors.username_exists'),
-        );
+        throw new ConflictException('A user with this username already exists');
       }
     }
   }

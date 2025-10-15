@@ -10,13 +10,13 @@ import { Transform } from 'class-transformer';
 
 export class GetLanguagesQuery {
   @IsOptional()
-  @Transform(({ value }) => (value ? parseInt(value as string, 10) : undefined))
+  @Transform(({ value }) => (value ? parseInt(value as string) : undefined))
   @IsInt({ message: 'Page must be an integer' })
   @Min(1, { message: 'Page must be at least 1' })
   page?: number;
 
   @IsOptional()
-  @Transform(({ value }) => (value ? parseInt(value as string, 10) : undefined))
+  @Transform(({ value }) => (value ? parseInt(value as string) : undefined))
   @IsInt({ message: 'Limit must be an integer' })
   @Min(1, { message: 'Limit must be at least 1' })
   @Max(100, { message: 'Limit cannot exceed 100' })

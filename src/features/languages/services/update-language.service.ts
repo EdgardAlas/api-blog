@@ -4,7 +4,6 @@ import {
   NotFoundException,
   ConflictException,
 } from '@nestjs/common';
-import { I18nService } from 'nestjs-i18n';
 import { BaseService } from 'src/shared/types/base-service';
 import type { Database } from 'src/db/database.module';
 import { DatabaseService } from 'src/db/database.module';
@@ -12,7 +11,6 @@ import { UpdateLanguageRequest } from 'src/features/languages/dto/requests/updat
 import { IdResponse } from 'src/shared/dto/id.response';
 import { languages } from 'src/db/schema/languages';
 import { eq, ne, and } from 'drizzle-orm';
-import { I18nTranslations } from 'src/i18n/i18n.generated';
 
 interface UpdateLanguageParams {
   id: string;
@@ -21,10 +19,7 @@ interface UpdateLanguageParams {
 
 @Injectable()
 export class UpdateLanguageService implements BaseService<IdResponse> {
-  constructor(
-    @Inject(DatabaseService) private readonly db: Database,
-    private readonly i18n: I18nService<I18nTranslations>,
-  ) {}
+  constructor(@Inject(DatabaseService) private readonly db: Database) {}
 
   async execute({ id, request }: UpdateLanguageParams) {
     await this.validateLanguageExists(id);
@@ -42,7 +37,7 @@ export class UpdateLanguageService implements BaseService<IdResponse> {
       .returning({ id: languages.id });
 
     if (!result) {
-      throw new NotFoundException(this.i18n.t('languages.errors.not_found'));
+      throw new NotFoundException('Language not found');
     }
 
     return { id: result.id };
@@ -56,7 +51,7 @@ export class UpdateLanguageService implements BaseService<IdResponse> {
       .limit(1);
 
     if (!existingLanguage) {
-      throw new NotFoundException(this.i18n.t('languages.errors.not_found'));
+      throw new NotFoundException('Language not found');
     }
   }
 
@@ -75,7 +70,7 @@ export class UpdateLanguageService implements BaseService<IdResponse> {
       .limit(1);
 
     if (existingCode.length > 0) {
-      throw new ConflictException(this.i18n.t('languages.errors.code_exists'));
+      throw new ConflictException('Language code already exists');
     }
   }
 }

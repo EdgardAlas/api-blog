@@ -5,40 +5,39 @@ import {
   IsString,
   Length,
 } from 'class-validator';
-import { i18nValidationMessage } from 'nestjs-i18n';
 
 export class CreateLanguageRequest {
   @IsNotEmpty({
-    message: i18nValidationMessage('languages.validation.code_required'),
+    message: 'Language code is required',
   })
   @IsString({
-    message: i18nValidationMessage('languages.validation.code_string'),
+    message: 'Language code must be a string',
   })
   @Length(2, 5, {
-    message: i18nValidationMessage('languages.validation.code_length'),
+    message: 'Language code must be between 2 and 5 characters',
   })
   code: string;
 
   @IsNotEmpty({
-    message: i18nValidationMessage('languages.validation.name_required'),
+    message: 'Language name is required',
   })
   @IsString({
-    message: i18nValidationMessage('languages.validation.name_string'),
+    message: 'Language name must be a string',
   })
   @Length(1, 100, {
-    message: i18nValidationMessage('languages.validation.name_length'),
+    message: 'Language name must be between 1 and 100 characters',
   })
   name: string;
 
   @IsOptional()
   @IsBoolean({
-    message: i18nValidationMessage('languages.validation.is_default_boolean'),
+    message: 'Is default must be a boolean',
   })
   isDefault?: boolean;
 
   @IsOptional()
   @IsBoolean({
-    message: i18nValidationMessage('languages.validation.is_active_boolean'),
+    message: 'Is active must be a boolean',
   })
   isActive?: boolean;
 }

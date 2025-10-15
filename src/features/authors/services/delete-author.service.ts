@@ -1,19 +1,14 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
-import { I18nService } from 'nestjs-i18n';
 import { BaseService } from 'src/shared/types/base-service';
 import type { Database } from 'src/db/database.module';
 import { DatabaseService } from 'src/db/database.module';
 import { IdResponse } from 'src/shared/dto/id.response';
 import { authors } from 'src/db/schema/authors';
 import { eq } from 'drizzle-orm';
-import { I18nTranslations } from 'src/i18n/i18n.generated';
 
 @Injectable()
 export class DeleteAuthorService implements BaseService<IdResponse> {
-  constructor(
-    @Inject(DatabaseService) private readonly db: Database,
-    private readonly i18n: I18nService<I18nTranslations>,
-  ) {}
+  constructor(@Inject(DatabaseService) private readonly db: Database) {}
 
   async execute(id: string) {
     const [result] = await this.db
@@ -22,7 +17,7 @@ export class DeleteAuthorService implements BaseService<IdResponse> {
       .returning({ id: authors.id });
 
     if (!result) {
-      throw new NotFoundException(this.i18n.t('authors.errors.not_found'));
+      throw new NotFoundException('Author not found');
     }
 
     return { id: result.id };

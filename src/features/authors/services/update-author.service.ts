@@ -4,7 +4,6 @@ import {
   NotFoundException,
   ConflictException,
 } from '@nestjs/common';
-import { I18nService } from 'nestjs-i18n';
 import { BaseService } from 'src/shared/types/base-service';
 import type { Database } from 'src/db/database.module';
 import { DatabaseService } from 'src/db/database.module';
@@ -12,7 +11,6 @@ import { UpdateAuthorRequest } from 'src/features/authors/dto/requests/update-au
 import { IdResponse } from 'src/shared/dto/id.response';
 import { authors } from 'src/db/schema/authors';
 import { eq, and, ne } from 'drizzle-orm';
-import { I18nTranslations } from 'src/i18n/i18n.generated';
 
 interface UpdateAuthorParams {
   id: string;
@@ -21,10 +19,7 @@ interface UpdateAuthorParams {
 
 @Injectable()
 export class UpdateAuthorService implements BaseService<IdResponse> {
-  constructor(
-    @Inject(DatabaseService) private readonly db: Database,
-    private readonly i18n: I18nService<I18nTranslations>,
-  ) {}
+  constructor(@Inject(DatabaseService) private readonly db: Database) {}
 
   async execute({ id, request }: UpdateAuthorParams) {
     await this.validateAuthorExists(id);
@@ -42,7 +37,7 @@ export class UpdateAuthorService implements BaseService<IdResponse> {
       .returning({ id: authors.id });
 
     if (!result) {
-      throw new NotFoundException(this.i18n.t('authors.errors.not_found'));
+      throw new NotFoundException('Author not found');
     }
 
     return { id: result.id };
@@ -56,7 +51,7 @@ export class UpdateAuthorService implements BaseService<IdResponse> {
       .limit(1);
 
     if (!author) {
-      throw new NotFoundException(this.i18n.t('authors.errors.not_found'));
+      throw new NotFoundException('Author not found');
     }
   }
 
@@ -72,7 +67,7 @@ export class UpdateAuthorService implements BaseService<IdResponse> {
         .limit(1);
 
       if (existingSlug.length > 0) {
-        throw new ConflictException(this.i18n.t('authors.errors.slug_exists'));
+        throw new ConflictException('An author with this slug already exists');
       }
     }
 
@@ -84,7 +79,7 @@ export class UpdateAuthorService implements BaseService<IdResponse> {
         .limit(1);
 
       if (existingEmail.length > 0) {
-        throw new ConflictException(this.i18n.t('authors.errors.email_exists'));
+        throw new ConflictException('An author with this email already exists');
       }
     }
 
@@ -111,7 +106,7 @@ export class UpdateAuthorService implements BaseService<IdResponse> {
         .limit(1);
 
       if (existingName.length > 0) {
-        throw new ConflictException(this.i18n.t('authors.errors.name_exists'));
+        throw new ConflictException('An author with this name already exists');
       }
     }
   }

@@ -1,7 +1,6 @@
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common';
-import { I18nValidationPipe, I18nValidationExceptionFilter } from 'nestjs-i18n';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -16,12 +15,14 @@ async function bootstrap() {
     origin: corsOrigins,
   });
 
-  app.useGlobalPipes(new I18nValidationPipe());
-  app.useGlobalFilters(
-    new I18nValidationExceptionFilter({
-      detailedErrors: false,
-    }),
-  );
+  app.useGlobalPipes(new ValidationPipe());
+
+  // app.useGlobalPipes(new I18nValidationPipe());
+  // app.useGlobalFilters(
+  //   new I18nValidationExceptionFilter({
+  //     detailedErrors: false,
+  //   }),
+  // );
 
   await app.listen(process.env.PORT ?? 3000);
 

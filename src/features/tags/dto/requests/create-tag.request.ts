@@ -10,36 +10,35 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { i18nValidationMessage } from 'nestjs-i18n';
 
 export class CreateTagTranslationRequest {
   @IsNotEmpty({
-    message: i18nValidationMessage('tags.validation.languageId_required'),
+    message: 'Language ID is required',
   })
   @IsUUID('4', {
-    message: i18nValidationMessage('tags.validation.languageId_uuid'),
+    message: 'Language ID must be a valid UUID',
   })
   languageId: string;
 
   @IsNotEmpty({
-    message: i18nValidationMessage('tags.validation.name_required'),
+    message: 'Name is required',
   })
   @IsString({
-    message: i18nValidationMessage('tags.validation.name_string'),
+    message: 'Name must be a string',
   })
   @Length(1, 255, {
-    message: i18nValidationMessage('tags.validation.name_length'),
+    message: 'Name must be between 1 and 255 characters',
   })
   name: string;
 
   @IsNotEmpty({
-    message: i18nValidationMessage('tags.validation.slug_required'),
+    message: 'Slug is required',
   })
   @IsString({
-    message: i18nValidationMessage('tags.validation.slug_string'),
+    message: 'Slug must be a string',
   })
   @Length(1, 255, {
-    message: i18nValidationMessage('tags.validation.slug_length'),
+    message: 'Slug must be between 1 and 255 characters',
   })
   slug: string;
 }
@@ -47,18 +46,18 @@ export class CreateTagTranslationRequest {
 export class CreateTagRequest {
   @IsOptional()
   @IsHexColor({
-    message: i18nValidationMessage('tags.validation.color_hex'),
+    message: 'Color must be a valid hexadecimal color',
   })
   color?: string;
 
   @IsOptional()
   @IsBoolean({
-    message: i18nValidationMessage('tags.validation.isActive_boolean'),
+    message: 'isActive must be a boolean value',
   })
   isActive?: boolean;
 
   @IsArray({
-    message: i18nValidationMessage('tags.validation.translations_array'),
+    message: 'Translations must be an array',
   })
   @ValidateNested({ each: true })
   @Type(() => CreateTagTranslationRequest)

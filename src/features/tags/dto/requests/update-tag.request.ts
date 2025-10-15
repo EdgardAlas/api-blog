@@ -1,7 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { IsArray, IsOptional, IsUUID, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { i18nValidationMessage } from 'nestjs-i18n';
 import {
   CreateTagRequest,
   CreateTagTranslationRequest,
@@ -10,14 +9,14 @@ import {
 export class UpdateTagTranslationRequest extends CreateTagTranslationRequest {
   @IsOptional()
   @IsUUID('4', {
-    message: i18nValidationMessage('tags.validation.id_uuid'),
+    message: 'ID must be a valid UUID',
   })
   id?: string;
 }
 
 export class UpdateTagRequest extends PartialType(CreateTagRequest) {
   @IsArray({
-    message: i18nValidationMessage('tags.validation.translations_array'),
+    message: 'Translations must be an array',
   })
   @ValidateNested({ each: true })
   @Type(() => UpdateTagTranslationRequest)

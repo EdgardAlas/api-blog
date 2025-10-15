@@ -1,7 +1,5 @@
 import { Injectable, Inject, ConflictException } from '@nestjs/common';
-import { I18nService } from 'nestjs-i18n';
 import { BaseService } from 'src/shared/types/base-service';
-import { I18nTranslations } from 'src/i18n/i18n.generated';
 import type { Database } from 'src/db/database.module';
 import { DatabaseService } from 'src/db/database.module';
 import { CreateUserRequest } from 'src/features/users/dto/requests/create-user.request';
@@ -12,10 +10,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class CreateUserService implements BaseService<IdResponse> {
-  constructor(
-    @Inject(DatabaseService) private readonly db: Database,
-    private readonly i18n: I18nService<I18nTranslations>,
-  ) {}
+  constructor(@Inject(DatabaseService) private readonly db: Database) {}
 
   async execute(request: CreateUserRequest) {
     await this.validateUniqueConstraints(request);
@@ -54,11 +49,11 @@ export class CreateUserService implements BaseService<IdResponse> {
     if (!existingUser) return;
 
     if (existingUser.email === request.email) {
-      throw new ConflictException(this.i18n.t('users.errors.email_exists'));
+      throw new ConflictException('Email already exists');
     }
 
     if (existingUser.username === request.username) {
-      throw new ConflictException(this.i18n.t('users.errors.username_exists'));
+      throw new ConflictException('Username already exists');
     }
   }
 }

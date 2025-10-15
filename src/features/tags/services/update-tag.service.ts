@@ -4,9 +4,7 @@ import {
   ConflictException,
   NotFoundException,
 } from '@nestjs/common';
-import { I18nService } from 'nestjs-i18n';
 import { BaseService } from 'src/shared/types/base-service';
-import { I18nTranslations } from 'src/i18n/i18n.generated';
 import type { Database } from 'src/db/database.module';
 import { DatabaseService } from 'src/db/database.module';
 import { UpdateTagRequest } from 'src/features/tags/dto/requests/update-tag.request';
@@ -22,10 +20,7 @@ interface UpdateTagParams {
 
 @Injectable()
 export class UpdateTagService implements BaseService<IdResponse> {
-  constructor(
-    @Inject(DatabaseService) private readonly db: Database,
-    private readonly i18n: I18nService<I18nTranslations>,
-  ) {}
+  constructor(@Inject(DatabaseService) private readonly db: Database) {}
 
   async execute({ id, request }: UpdateTagParams) {
     await this.validateTagExists(id);
@@ -96,7 +91,7 @@ export class UpdateTagService implements BaseService<IdResponse> {
       .limit(1);
 
     if (!tag) {
-      throw new NotFoundException(this.i18n.t('tags.errors.not_found'));
+      throw new NotFoundException('Tag not found');
     }
   }
 
@@ -134,7 +129,7 @@ export class UpdateTagService implements BaseService<IdResponse> {
       );
 
       if (conflict) {
-        throw new ConflictException(this.i18n.t('tags.errors.slug_exists'));
+        throw new ConflictException('Tag slug already exists');
       }
     }
   }

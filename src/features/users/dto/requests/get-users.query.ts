@@ -1,17 +1,16 @@
 import { Transform, Type } from 'class-transformer';
 import { IsOptional, IsString, IsInt, Min, IsEnum } from 'class-validator';
-import { i18nValidationMessage } from 'nestjs-i18n';
 
 export class GetUsersQuery {
   @IsOptional()
   @IsString({
-    message: i18nValidationMessage('users.validation.search_string'),
+    message: 'Search must be a string',
   })
   search?: string;
 
   @IsOptional()
   @IsEnum(['admin', 'editor'], {
-    message: i18nValidationMessage('users.validation.role_enum'),
+    message: 'Role must be either admin or editor',
   })
   role?: 'admin' | 'editor';
 
@@ -19,10 +18,10 @@ export class GetUsersQuery {
   @Transform(({ value }) => parseInt(value as string))
   @Type(() => Number)
   @IsInt({
-    message: i18nValidationMessage('users.validation.page_integer'),
+    message: 'Page must be an integer',
   })
   @Min(1, {
-    message: i18nValidationMessage('users.validation.page_min'),
+    message: 'Page must be at least 1',
   })
   page?: number;
 
@@ -30,10 +29,10 @@ export class GetUsersQuery {
   @Transform(({ value }) => parseInt(value as string))
   @Type(() => Number)
   @IsInt({
-    message: i18nValidationMessage('users.validation.limit_integer'),
+    message: 'Limit must be an integer',
   })
   @Min(1, {
-    message: i18nValidationMessage('users.validation.limit_min'),
+    message: 'Limit must be at least 1',
   })
   limit?: number;
 }

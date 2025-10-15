@@ -9,77 +9,70 @@ import {
   Length,
   MinLength,
 } from 'class-validator';
-import { i18nValidationMessage } from 'nestjs-i18n';
 
 export class CreateUserRequest {
   @IsNotEmpty({
-    message: i18nValidationMessage('users.validation.email_required'),
+    message: 'Email is required',
   })
-  @IsEmail(
-    {},
-    { message: i18nValidationMessage('users.validation.email_valid') },
-  )
+  @IsEmail({}, { message: 'Email must be a valid email address' })
   @Length(1, 255, {
-    message: i18nValidationMessage('users.validation.email_length'),
+    message: 'Email must be between 1 and 255 characters',
   })
   email: string;
 
   @IsNotEmpty({
-    message: i18nValidationMessage('users.validation.username_required'),
+    message: 'Username is required',
   })
   @IsString({
-    message: i18nValidationMessage('users.validation.username_string'),
+    message: 'Username must be a string',
   })
   @Length(1, 100, {
-    message: i18nValidationMessage('users.validation.username_length'),
+    message: 'Username must be between 1 and 100 characters',
   })
   username: string;
 
   @IsNotEmpty({
-    message: i18nValidationMessage('users.validation.password_required'),
+    message: 'Password is required',
   })
   @IsString({
-    message: i18nValidationMessage('users.validation.password_string'),
+    message: 'Password must be a string',
   })
   @MinLength(8, {
-    message: i18nValidationMessage('users.validation.password_min_length'),
+    message: 'Password must be at least 8 characters long',
   })
   password: string;
 
   @IsOptional()
   @IsString({
-    message: i18nValidationMessage('users.validation.firstName_string'),
+    message: 'First name must be a string',
   })
   @Length(1, 100, {
-    message: i18nValidationMessage('users.validation.firstName_length'),
+    message: 'First name must be between 1 and 100 characters',
   })
   firstName?: string;
 
   @IsOptional()
   @IsString({
-    message: i18nValidationMessage('users.validation.lastName_string'),
+    message: 'Last name must be a string',
   })
   @Length(1, 100, {
-    message: i18nValidationMessage('users.validation.lastName_length'),
+    message: 'Last name must be between 1 and 100 characters',
   })
   lastName?: string;
 
   @IsOptional()
-  @IsUrl(
-    {},
-    { message: i18nValidationMessage('users.validation.avatarUrl_valid') },
-  )
+  @IsUrl({}, { message: 'Avatar URL must be a valid URL' })
   avatarUrl?: string;
 
   @IsOptional()
   @IsEnum(['admin', 'editor'], {
-    message: i18nValidationMessage('users.validation.role_enum'),
+    message: 'Role must be either admin or editor',
   })
   role?: 'admin' | 'editor';
 
   @IsOptional()
   @IsBoolean({
-    message: i18nValidationMessage('users.validation.isActive_boolean'),
+    message: 'Active status must be a boolean',
   })
   isActive?: boolean;
 }

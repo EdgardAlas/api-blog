@@ -10,9 +10,12 @@ import { type Database } from 'src/db/database.module';
 import { DatabaseService } from 'src/db/database.module';
 import { authSessions } from 'src/db/schema';
 import { EnvsService } from 'src/env/services/envs.service';
-import { I18nService } from 'nestjs-i18n';
-import { I18nTranslations } from 'src/i18n/i18n.generated';
 import { eq } from 'drizzle-orm';
+
+interface JwtPayloadContainsJti {
+  sub: string;
+  jti: string;
+}
 
 @Injectable()
 export class AuthJwtService {
@@ -26,7 +29,6 @@ export class AuthJwtService {
     private readonly jwt: JwtService,
     private readonly envs: EnvsService,
     @Inject(DatabaseService) private readonly db: Database,
-    private readonly i18n: I18nService<I18nTranslations>,
   ) {
     this.jwtSecret = this.envs.get('JWT_AUTH_SECRET');
     this.jwtRefreshSecret = this.envs.get('JWT_REFRESH_SECRET');
@@ -68,14 +70,12 @@ export class AuthJwtService {
 
   async verifyAccessToken(token: string) {
     try {
-      const payload = this.jwt.verify<{ sub: string; jti: string }>(token, {
+      const payload = this.jwt.verify<JwtPayloadContainsJti>(token, {
         secret: this.jwtSecret,
       });
 
       if (!payload.jti) {
-        throw new UnauthorizedException(
-          this.i18n.t('auth.errors.invalid_token'),
-        );
+        throw new UnauthorizedException('Invalid token');
       }
 
       const [session] = await this.db
@@ -84,15 +84,13 @@ export class AuthJwtService {
         .where(eq(authSessions.accessTokenJti, payload.jti))
         .limit(1);
       if (!session) {
-        throw new UnauthorizedException(
-          this.i18n.t('auth.errors.invalid_token'),
-        );
+        throw new UnauthorizedException('Invalid token');
       }
 
       return payload;
     } catch (err) {
       this.logger.warn('verifyAccessToken failed', err);
-      throw new UnauthorizedException(this.i18n.t('auth.errors.invalid_token'));
+      throw new UnauthorizedException('Invalid token');
     }
   }
 
@@ -103,9 +101,7 @@ export class AuthJwtService {
       });
 
       if (!payload.jti) {
-        throw new UnauthorizedException(
-          this.i18n.t('auth.errors.invalid_token'),
-        );
+        throw new UnauthorizedException('Invalid token');
       }
 
       const [session] = await this.db
@@ -114,15 +110,13 @@ export class AuthJwtService {
         .where(eq(authSessions.refreshTokenJti, payload.jti))
         .limit(1);
       if (!session) {
-        throw new UnauthorizedException(
-          this.i18n.t('auth.errors.invalid_token'),
-        );
+        throw new UnauthorizedException('Invalid token');
       }
 
       return { payload, session };
     } catch (err) {
       this.logger.warn('verifyRefreshToken failed', err);
-      throw new UnauthorizedException(this.i18n.t('auth.errors.invalid_token'));
+      throw new UnauthorizedException('Invalid token');
     }
   }
 
@@ -132,8 +126,7 @@ export class AuthJwtService {
       .from(authSessions)
       .where(eq(authSessions.id, sessionId))
       .limit(1);
-    if (!session)
-      throw new UnauthorizedException(this.i18n.t('auth.errors.invalid_token'));
+    if (!session) throw new UnauthorizedException('Invalid token');
 
     const newAccessTokenJti = randomUUID();
     const newRefreshTokenJti = randomUUID();

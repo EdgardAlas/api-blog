@@ -1,7 +1,5 @@
 import { Injectable, Inject, ConflictException } from '@nestjs/common';
-import { I18nService } from 'nestjs-i18n';
 import { BaseService } from 'src/shared/types/base-service';
-import { I18nTranslations } from 'src/i18n/i18n.generated';
 import type { Database } from 'src/db/database.module';
 import { DatabaseService } from 'src/db/database.module';
 import { CreateTagRequest } from 'src/features/tags/dto/requests/create-tag.request';
@@ -12,10 +10,7 @@ import { eq, and } from 'drizzle-orm';
 
 @Injectable()
 export class CreateTagService implements BaseService<IdResponse> {
-  constructor(
-    @Inject(DatabaseService) private readonly db: Database,
-    private readonly i18n: I18nService<I18nTranslations>,
-  ) {}
+  constructor(@Inject(DatabaseService) private readonly db: Database) {}
 
   async execute(request: CreateTagRequest) {
     await this.validateUniqueConstraints(request);
@@ -56,7 +51,7 @@ export class CreateTagService implements BaseService<IdResponse> {
         .limit(1);
 
       if (existingSlug.length > 0) {
-        throw new ConflictException(this.i18n.t('tags.errors.slug_exists'));
+        throw new ConflictException('Tag slug already exists');
       }
     }
   }
